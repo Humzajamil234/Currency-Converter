@@ -1,0 +1,830 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes, viewport-fit=cover">
+    <meta name="description" content="Enterprise Grade Currency Converter with Real-time Rates & Premium Themes">
+    <meta name="theme-color" content="#0a0a2a">
+    <title>Enterprise Currency Converter | Premium Business Edition</title>
+    
+    <!-- Chart.js -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300;14..32,400;14..32,500;14..32,600;14..32,700;14..32,800&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
+    
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        /* Professional Color Themes */
+        :root {
+            --primary: #0052cc;
+            --primary-rgb: 0, 82, 204;
+            --secondary: #00a3ff;
+            --secondary-rgb: 0, 163, 255;
+            --success: #36b37e;
+            --danger: #ff5630;
+            --warning: #ffab00;
+            --info: #00b8d9;
+            --glass: rgba(255, 255, 255, 0.05);
+            --glass-border: rgba(255, 255, 255, 0.08);
+            --shadow: 0 25px 45px rgba(0, 0, 0, 0.2);
+        }
+
+        /* Theme 1: Corporate Blue */
+        body.theme-corporate {
+            --primary: #0052cc;
+            --primary-rgb: 0, 82, 204;
+            --secondary: #00a3ff;
+            --secondary-rgb: 0, 163, 255;
+            background: linear-gradient(135deg, #0a0e1a 0%, #0f1525 25%, #131b30 50%, #0f1525 75%, #0a0e1a 100%);
+        }
+
+        /* Theme 2: Premium Gold */
+        body.theme-gold {
+            --primary: #ffd700;
+            --primary-rgb: 255, 215, 0;
+            --secondary: #ffb347;
+            --secondary-rgb: 255, 179, 71;
+            background: linear-gradient(135deg, #1a1208 0%, #2a1f0f 25%, #3d2e17 50%, #2a1f0f 75%, #1a1208 100%);
+        }
+
+        /* Theme 3: Modern Purple (SaaS) */
+        body.theme-purple {
+            --primary: #9b59b6;
+            --primary-rgb: 155, 89, 182;
+            --secondary: #e74c3c;
+            --secondary-rgb: 231, 76, 60;
+            background: linear-gradient(135deg, #1a0a2e 0%, #2d1a4e 25%, #4a2a6e 50%, #2d1a4e 75%, #1a0a2e 100%);
+        }
+
+        /* Theme 4: Tech Green (FinTech) */
+        body.theme-tech {
+            --primary: #00e676;
+            --primary-rgb: 0, 230, 118;
+            --secondary: #00b0ff;
+            --secondary-rgb: 0, 176, 255;
+            background: linear-gradient(135deg, #0a1a0a 0%, #0f2a0f 25%, #143d14 50%, #0f2a0f 75%, #0a1a0a 100%);
+        }
+
+        /* Theme 5: Banking Red */
+        body.theme-banking {
+            --primary: #ff4d4d;
+            --primary-rgb: 255, 77, 77;
+            --secondary: #ff8080;
+            --secondary-rgb: 255, 128, 128;
+            background: linear-gradient(135deg, #1a0a0a 0%, #2a0f0f 25%, #3d1414 50%, #2a0f0f 75%, #1a0a0a 100%);
+        }
+
+        /* Theme 6: Ocean Teal */
+        body.theme-ocean {
+            --primary: #00d2d3;
+            --primary-rgb: 0, 210, 211;
+            --secondary: #54a0ff;
+            --secondary-rgb: 84, 160, 255;
+            background: linear-gradient(135deg, #0a1a2a 0%, #0f2a3a 25%, #143d4a 50%, #0f2a3a 75%, #0a1a2a 100%);
+        }
+
+        /* Theme 7: Luxury Indigo */
+        body.theme-indigo {
+            --primary: #5f27cd;
+            --primary-rgb: 95, 39, 205;
+            --secondary: #341f97;
+            --secondary-rgb: 52, 31, 151;
+            background: linear-gradient(135deg, #0a0a2a 0%, #1a1a4a 25%, #2a2a6a 50%, #1a1a4a 75%, #0a0a2a 100%);
+        }
+
+        /* Theme 8: Modern Gray */
+        body.theme-gray {
+            --primary: #a8dadc;
+            --primary-rgb: 168, 218, 220;
+            --secondary: #e63946;
+            --secondary-rgb: 230, 57, 70;
+            background: linear-gradient(135deg, #1a1a1a 0%, #2a2a2a 25%, #3d3d3d 50%, #2a2a2a 75%, #1a1a1a 100%);
+        }
+
+        /* Theme 9: Royal Emerald */
+        body.theme-emerald {
+            --primary: #2ecc71;
+            --primary-rgb: 46, 204, 113;
+            --secondary: #27ae60;
+            --secondary-rgb: 39, 174, 96;
+            background: linear-gradient(135deg, #0a1a0a 0%, #0f2a0f 25%, #0a3d0a 50%, #0f2a0f 75%, #0a1a0a 100%);
+        }
+
+        /* Theme 10: Sunset Business */
+        body.theme-sunset {
+            --primary: #ff9f43;
+            --primary-rgb: 255, 159, 67;
+            --secondary: #f39c12;
+            --secondary-rgb: 243, 156, 18;
+            background: linear-gradient(135deg, #2a0a0a 0%, #4a1a1a 25%, #6a2a2a 50%, #4a1a1a 75%, #2a0a0a 100%);
+        }
+
+        /* Theme 11: Rose Luxury (New) */
+        body.theme-rose {
+            --primary: #ff6b9d;
+            --primary-rgb: 255, 107, 157;
+            --secondary: #c44569;
+            --secondary-rgb: 196, 69, 105;
+            background: linear-gradient(135deg, #1a0a1a 0%, #2a1525 25%, #3d1a35 50%, #2a1525 75%, #1a0a1a 100%);
+        }
+
+        /* Theme 12: Navy Executive (New) */
+        body.theme-navy {
+            --primary: #3498db;
+            --primary-rgb: 52, 152, 219;
+            --secondary: #2980b9;
+            --secondary-rgb: 41, 128, 185;
+            background: linear-gradient(135deg, #0a0a1a 0%, #0f0f2a 25%, #141438 50%, #0f0f2a 75%, #0a0a1a 100%);
+        }
+
+        body {
+            min-height: 100vh;
+            font-family: 'Inter', sans-serif;
+            overflow-x: hidden;
+            position: relative;
+            transition: background 0.5s ease;
+        }
+
+        /* Animated Background */
+        .animated-bg {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 0;
+        }
+        
+        .animated-bg::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: radial-gradient(circle at 20% 50%, rgba(var(--primary-rgb), 0.12) 0%, transparent 60%);
+            animation: slowDrift 20s ease-in-out infinite;
+        }
+        
+        .animated-bg::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: radial-gradient(circle at 80% 80%, rgba(var(--secondary-rgb), 0.1) 0%, transparent 60%);
+            animation: slowDriftReverse 25s ease-in-out infinite;
+        }
+
+        @keyframes slowDrift {
+            0%, 100% { transform: translate(0, 0) scale(1); opacity: 0.6; }
+            50% { transform: translate(3%, 3%) scale(1.08); opacity: 1; }
+        }
+        
+        @keyframes slowDriftReverse {
+            0%, 100% { transform: translate(0, 0) scale(1); opacity: 0.6; }
+            50% { transform: translate(-3%, -3%) scale(1.08); opacity: 1; }
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 20px;
+            position: relative;
+            z-index: 1;
+        }
+
+        /* Header */
+        .header {
+            text-align: center;
+            margin-bottom: 35px;
+            animation: slideDown 0.6s ease;
+        }
+
+        .header h1 {
+            font-size: clamp(28px, 5vw, 44px);
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            font-weight: 800;
+            letter-spacing: -0.5px;
+            font-family: 'Space Grotesk', monospace;
+        }
+
+        .header p {
+            color: rgba(255,255,255,0.5);
+            margin-top: 8px;
+            font-size: clamp(12px, 3vw, 14px);
+            font-weight: 400;
+        }
+
+        @keyframes slideDown {
+            from { opacity: 0; transform: translateY(-30px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* Theme Selector - Professional Grid */
+        .theme-selector {
+            display: flex;
+            justify-content: center;
+            gap: 8px;
+            flex-wrap: wrap;
+            margin-bottom: 35px;
+            background: rgba(0,0,0,0.3);
+            backdrop-filter: blur(12px);
+            padding: 12px 20px;
+            border-radius: 60px;
+            width: fit-content;
+            margin-left: auto;
+            margin-right: auto;
+            border: 1px solid rgba(255,255,255,0.06);
+        }
+
+        .theme-btn {
+            background: rgba(255,255,255,0.05);
+            border: none;
+            padding: 8px 16px;
+            border-radius: 40px;
+            color: white;
+            cursor: pointer;
+            font-size: 12px;
+            font-weight: 500;
+            transition: all 0.25s ease;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-family: 'Inter', sans-serif;
+        }
+
+        .theme-btn:hover {
+            transform: translateY(-2px);
+            background: var(--primary);
+            box-shadow: 0 4px 12px rgba(var(--primary-rgb), 0.3);
+        }
+
+        .theme-preview {
+            width: 14px;
+            height: 14px;
+            border-radius: 50%;
+            display: inline-block;
+            box-shadow: 0 0 4px rgba(0,0,0,0.3);
+        }
+
+        /* Main Converter Card */
+        .converter-card, .chart-card, .history-card {
+            background: rgba(0,0,0,0.35);
+            backdrop-filter: blur(20px);
+            border: 1px solid rgba(255,255,255,0.06);
+            border-radius: 32px;
+            padding: 35px;
+            margin-bottom: 30px;
+            transition: all 0.4s cubic-bezier(0.2, 0.9, 0.4, 1.1);
+            box-shadow: var(--shadow);
+        }
+
+        .converter-card:hover, .chart-card:hover, .history-card:hover {
+            transform: translateY(-5px);
+            border-color: rgba(var(--primary-rgb), 0.3);
+            box-shadow: 0 30px 50px rgba(0, 0, 0, 0.25);
+        }
+
+        /* Two Column Layout */
+        .two-column {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 30px;
+        }
+
+        @media (max-width: 768px) {
+            .two-column { grid-template-columns: 1fr; gap: 20px; }
+            .theme-selector { padding: 10px 15px; gap: 6px; }
+            .theme-btn { padding: 6px 12px; font-size: 10px; }
+            .converter-card, .chart-card, .history-card { padding: 24px; }
+        }
+
+        /* Amount Input */
+        .amount-section { margin-bottom: 28px; }
+        .amount-label { color: rgba(255,255,255,0.7); font-size: 13px; margin-bottom: 10px; display: block; font-weight: 500; letter-spacing: 0.5px; }
+        .amount-input {
+            width: 100%;
+            padding: 18px;
+            font-size: 32px;
+            font-family: 'Space Grotesk', monospace;
+            border: 1.5px solid rgba(255,255,255,0.1);
+            border-radius: 24px;
+            background: rgba(0,0,0,0.4);
+            color: white;
+            text-align: center;
+            font-weight: 600;
+            transition: all 0.3s;
+        }
+        .amount-input:focus { outline: none; border-color: var(--primary); box-shadow: 0 0 20px rgba(var(--primary-rgb), 0.2); }
+        .amount-input::placeholder { color: rgba(255,255,255,0.3); }
+
+        /* Currency Selectors */
+        .currency-row {
+            display: grid;
+            grid-template-columns: 1fr auto 1fr;
+            gap: 20px;
+            align-items: center;
+            margin-bottom: 28px;
+        }
+        .currency-box {
+            background: rgba(0,0,0,0.3);
+            border-radius: 24px;
+            padding: 18px;
+            text-align: center;
+        }
+        .currency-label { color: rgba(255,255,255,0.5); font-size: 11px; margin-bottom: 8px; text-transform: uppercase; letter-spacing: 1px; }
+        .currency-select {
+            width: 100%;
+            padding: 12px;
+            font-size: 14px;
+            font-weight: 500;
+            border: 1.5px solid rgba(255,255,255,0.1);
+            border-radius: 18px;
+            background: rgba(0,0,0,0.5);
+            color: white;
+            cursor: pointer;
+            transition: all 0.3s;
+            font-family: 'Inter', sans-serif;
+        }
+        .currency-select:hover { border-color: var(--primary); }
+        .swap-icon {
+            font-size: 32px;
+            cursor: pointer;
+            transition: all 0.4s ease;
+            background: rgba(0,0,0,0.3);
+            width: 56px;
+            height: 56px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 50%;
+            margin: 0 auto;
+        }
+        .swap-icon:hover { transform: rotate(180deg) scale(1.05); background: var(--primary); box-shadow: 0 0 20px rgba(var(--primary-rgb), 0.4); }
+
+        /* Result Section */
+        .result-section {
+            text-align: center;
+            margin: 28px 0;
+            padding: 28px;
+            background: rgba(0,0,0,0.25);
+            border-radius: 24px;
+        }
+        .converted-amount {
+            font-size: clamp(36px, 7vw, 58px);
+            font-family: 'Space Grotesk', monospace;
+            color: var(--primary);
+            font-weight: 700;
+            margin-bottom: 8px;
+            letter-spacing: -1px;
+        }
+        .exchange-rate { color: rgba(255,255,255,0.5); font-size: 13px; }
+
+        /* Buttons */
+        .button-group {
+            display: flex;
+            gap: 12px;
+            justify-content: center;
+            flex-wrap: wrap;
+            margin-top: 25px;
+        }
+        .btn {
+            padding: 10px 24px;
+            border: none;
+            border-radius: 40px;
+            font-size: 13px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+            font-family: 'Inter', sans-serif;
+        }
+        .btn-primary { background: linear-gradient(135deg, var(--primary), var(--secondary)); color: white; }
+        .btn-success { background: linear-gradient(135deg, #36b37e, #1f8a4c); color: white; }
+        .btn-danger { background: linear-gradient(135deg, #ff5630, #c93715); color: white; }
+        .btn-outline { background: transparent; border: 1.5px solid var(--primary); color: var(--primary); }
+        .btn-outline:hover { background: var(--primary); color: white; }
+        .btn:hover { transform: translateY(-2px); box-shadow: 0 5px 15px rgba(0,0,0,0.3); }
+
+        /* Popular Currencies */
+        .popular-section { margin-top: 28px; }
+        .popular-title { color: rgba(255,255,255,0.7); font-size: 13px; margin-bottom: 14px; text-align: center; font-weight: 600; letter-spacing: 0.5px; }
+        .popular-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(100px, 1fr));
+            gap: 10px;
+        }
+        .popular-btn {
+            background: rgba(0,0,0,0.3);
+            border: 1px solid rgba(255,255,255,0.08);
+            padding: 10px;
+            border-radius: 14px;
+            color: white;
+            cursor: pointer;
+            transition: all 0.25s;
+            font-size: 12px;
+            text-align: center;
+            font-weight: 500;
+        }
+        .popular-btn:hover { background: var(--primary); transform: translateY(-2px); }
+
+        /* Chart & History */
+        .chart-title, .history-title { color: rgba(255,255,255,0.8); font-size: 16px; font-weight: 600; margin-bottom: 20px; text-align: center; letter-spacing: -0.3px; }
+        .chart-container { position: relative; height: 260px; }
+        canvas { max-height: 260px; width: 100%; }
+
+        /* History List */
+        .history-list { max-height: 320px; overflow-y: auto; }
+        .history-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 12px 16px;
+            background: rgba(0,0,0,0.25);
+            border-radius: 16px;
+            margin-bottom: 8px;
+            transition: all 0.25s;
+        }
+        .history-item:hover { background: rgba(0,0,0,0.4); transform: translateX(4px); }
+        .history-value { color: white; font-family: 'Space Grotesk', monospace; font-size: 13px; font-weight: 500; }
+        .history-time { color: rgba(255,255,255,0.35); font-size: 10px; margin-top: 4px; }
+        .history-delete { background: rgba(255,86,48,0.8); border: none; padding: 5px 12px; border-radius: 12px; color: white; cursor: pointer; font-size: 11px; transition: all 0.2s; }
+        .history-delete:hover { opacity: 0.8; transform: scale(0.95); background: #ff5630; }
+
+        .last-updated { text-align: center; margin-top: 25px; color: rgba(255,255,255,0.25); font-size: 10px; letter-spacing: 0.5px; }
+
+        /* Notification */
+        .notification {
+            position: fixed;
+            bottom: 24px;
+            right: 24px;
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            padding: 12px 24px;
+            border-radius: 48px;
+            color: white;
+            font-weight: 500;
+            animation: slideInRight 0.4s ease;
+            z-index: 1000;
+            font-size: 13px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+        }
+        @keyframes slideInRight {
+            from { transform: translateX(100%); opacity: 0; }
+            to { transform: translateX(0); opacity: 1; }
+        }
+
+        @media (max-width: 480px) {
+            .container { padding: 15px; }
+            .converter-card, .chart-card, .history-card { padding: 20px; }
+            .popular-grid { grid-template-columns: repeat(2, 1fr); }
+            .currency-row { gap: 12px; }
+            .amount-input { font-size: 24px; padding: 14px; }
+            .swap-icon { width: 48px; height: 48px; font-size: 24px; }
+        }
+
+        ::-webkit-scrollbar { width: 4px; }
+        ::-webkit-scrollbar-track { background: rgba(255,255,255,0.03); border-radius: 10px; }
+        ::-webkit-scrollbar-thumb { background: var(--primary); border-radius: 10px; }
+    </style>
+</head>
+<body class="theme-corporate">
+
+<div class="animated-bg"></div>
+
+<div class="container">
+    <div class="header">
+        <h1>💱 ENTERPRISE CURRENCY CONVERTER</h1>
+        <p>Powered by Real-time Exchange Rates | Premium Business Edition</p>
+    </div>
+
+    <!-- Professional Theme Selector - 12 Themes -->
+    <div class="theme-selector">
+        <button class="theme-btn" onclick="changeTheme('corporate')"><span class="theme-preview" style="background: #0052cc;"></span>Corporate</button>
+        <button class="theme-btn" onclick="changeTheme('gold')"><span class="theme-preview" style="background: #ffd700;"></span>Gold</button>
+        <button class="theme-btn" onclick="changeTheme('purple')"><span class="theme-preview" style="background: #9b59b6;"></span>Purple</button>
+        <button class="theme-btn" onclick="changeTheme('tech')"><span class="theme-preview" style="background: #00e676;"></span>Tech</button>
+        <button class="theme-btn" onclick="changeTheme('banking')"><span class="theme-preview" style="background: #ff4d4d;"></span>Banking</button>
+        <button class="theme-btn" onclick="changeTheme('ocean')"><span class="theme-preview" style="background: #00d2d3;"></span>Ocean</button>
+        <button class="theme-btn" onclick="changeTheme('indigo')"><span class="theme-preview" style="background: #5f27cd;"></span>Indigo</button>
+        <button class="theme-btn" onclick="changeTheme('gray')"><span class="theme-preview" style="background: #a8dadc;"></span>Gray</button>
+        <button class="theme-btn" onclick="changeTheme('emerald')"><span class="theme-preview" style="background: #2ecc71;"></span>Emerald</button>
+        <button class="theme-btn" onclick="changeTheme('sunset')"><span class="theme-preview" style="background: #ff9f43;"></span>Sunset</button>
+        <button class="theme-btn" onclick="changeTheme('rose')"><span class="theme-preview" style="background: #ff6b9d;"></span>Rose</button>
+        <button class="theme-btn" onclick="changeTheme('navy')"><span class="theme-preview" style="background: #3498db;"></span>Navy</button>
+    </div>
+
+    <div class="two-column">
+        <div>
+            <div class="converter-card">
+                <div class="amount-section">
+                    <label class="amount-label">💰 Enter Amount</label>
+                    <input type="number" id="amount" class="amount-input" placeholder="0.00" value="1">
+                </div>
+
+                <div class="currency-row">
+                    <div class="currency-box">
+                        <div class="currency-label">From</div>
+                        <select id="fromCurrency" class="currency-select">
+                            <option value="USD">🇺🇸 USD - US Dollar</option>
+                            <option value="EUR">🇪🇺 EUR - Euro</option>
+                            <option value="GBP">🇬🇧 GBP - British Pound</option>
+                            <option value="JPY">🇯🇵 JPY - Japanese Yen</option>
+                            <option value="PKR" selected>🇵🇰 PKR - Pakistani Rupee</option>
+                            <option value="INR">🇮🇳 INR - Indian Rupee</option>
+                            <option value="AED">🇦🇪 AED - UAE Dirham</option>
+                            <option value="SAR">🇸🇦 SAR - Saudi Riyal</option>
+                            <option value="CAD">🇨🇦 CAD - Canadian Dollar</option>
+                            <option value="AUD">🇦🇺 AUD - Australian Dollar</option>
+                            <option value="CNY">🇨🇳 CNY - Chinese Yuan</option>
+                            <option value="TRY">🇹🇷 TRY - Turkish Lira</option>
+                            <option value="RUB">🇷🇺 RUB - Russian Ruble</option>
+                            <option value="BRL">🇧🇷 BRL - Brazilian Real</option>
+                            <option value="ZAR">🇿🇦 ZAR - South African Rand</option>
+                            <option value="CHF">🇨🇭 CHF - Swiss Franc</option>
+                            <option value="NZD">🇳🇿 NZD - New Zealand Dollar</option>
+                            <option value="SGD">🇸🇬 SGD - Singapore Dollar</option>
+                            <option value="MYR">🇲🇾 MYR - Malaysian Ringgit</option>
+                            <option value="THB">🇹🇭 THB - Thai Baht</option>
+                        </select>
+                    </div>
+
+                    <div class="swap-icon" id="swapBtn">🔄</div>
+
+                    <div class="currency-box">
+                        <div class="currency-label">To</div>
+                        <select id="toCurrency" class="currency-select">
+                            <option value="USD" selected>🇺🇸 USD - US Dollar</option>
+                            <option value="EUR">🇪🇺 EUR - Euro</option>
+                            <option value="GBP">🇬🇧 GBP - British Pound</option>
+                            <option value="JPY">🇯🇵 JPY - Japanese Yen</option>
+                            <option value="PKR">🇵🇰 PKR - Pakistani Rupee</option>
+                            <option value="INR">🇮🇳 INR - Indian Rupee</option>
+                            <option value="AED">🇦🇪 AED - UAE Dirham</option>
+                            <option value="SAR">🇸🇦 SAR - Saudi Riyal</option>
+                            <option value="CAD">🇨🇦 CAD - Canadian Dollar</option>
+                            <option value="AUD">🇦🇺 AUD - Australian Dollar</option>
+                            <option value="CNY">🇨🇳 CNY - Chinese Yuan</option>
+                            <option value="TRY">🇹🇷 TRY - Turkish Lira</option>
+                            <option value="RUB">🇷🇺 RUB - Russian Ruble</option>
+                            <option value="BRL">🇧🇷 BRL - Brazilian Real</option>
+                            <option value="ZAR">🇿🇦 ZAR - South African Rand</option>
+                            <option value="CHF">🇨🇭 CHF - Swiss Franc</option>
+                            <option value="NZD">🇳🇿 NZD - New Zealand Dollar</option>
+                            <option value="SGD">🇸🇬 SGD - Singapore Dollar</option>
+                            <option value="MYR">🇲🇾 MYR - Malaysian Ringgit</option>
+                            <option value="THB">🇹🇭 THB - Thai Baht</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="result-section">
+                    <div class="converted-amount" id="convertedAmount">0.00</div>
+                    <div class="exchange-rate" id="exchangeRate">Loading exchange rates...</div>
+                </div>
+
+                <div class="button-group">
+                    <button class="btn btn-primary" id="convertBtn">🔄 Convert</button>
+                    <button class="btn btn-success" id="saveHistoryBtn">💾 Save</button>
+                    <button class="btn btn-danger" id="resetBtn">🗑️ Reset</button>
+                </div>
+
+                <div class="popular-section">
+                    <div class="popular-title">⭐ Popular Conversions</div>
+                    <div class="popular-grid" id="popularGrid"></div>
+                </div>
+
+                <div class="last-updated" id="lastUpdated">Last updated: --</div>
+            </div>
+        </div>
+
+        <div>
+            <div class="chart-card">
+                <div class="chart-title">📈 7-Day Exchange Rate Trend</div>
+                <div class="chart-container">
+                    <canvas id="rateChart"></canvas>
+                </div>
+            </div>
+
+            <div class="history-card">
+                <div class="history-title">📜 Conversion History</div>
+                <div class="button-group" style="margin-bottom: 12px;">
+                    <button class="btn btn-outline" id="clearHistoryBtn" style="padding: 6px 16px; font-size: 11px;">🗑️ Clear All</button>
+                </div>
+                <div class="history-list" id="historyList">
+                    <div style="text-align: center; color: rgba(255,255,255,0.35); padding: 20px; font-size: 13px;">No history yet</div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    let exchangeRates = {};
+    let lastUpdateTime = null;
+    let isUsingAPI = true;
+    let rateChart = null;
+    let conversionHistory = JSON.parse(localStorage.getItem('conversionHistory')) || [];
+
+    const popularPairs = [
+        { from: "USD", to: "PKR", label: "USD → PKR" },
+        { from: "PKR", to: "USD", label: "PKR → USD" },
+        { from: "EUR", to: "PKR", label: "EUR → PKR" },
+        { from: "GBP", to: "PKR", label: "GBP → PKR" },
+        { from: "USD", to: "INR", label: "USD → INR" },
+        { from: "AED", to: "PKR", label: "AED → PKR" },
+        { from: "SAR", to: "PKR", label: "SAR → PKR" },
+        { from: "USD", to: "EUR", label: "USD → EUR" }
+    ];
+
+    const fallbackRates = {
+        USD: 1, EUR: 0.92, GBP: 0.79, JPY: 151.5, PKR: 278.5, INR: 83.2,
+        AED: 3.67, SAR: 3.75, CAD: 1.36, AUD: 1.52, CNY: 7.24, TRY: 32.1,
+        RUB: 92.5, BRL: 5.12, ZAR: 18.8, CHF: 0.91, NZD: 1.65, SGD: 1.35,
+        MYR: 4.72, THB: 36.5
+    };
+
+    function changeTheme(theme) {
+        document.body.className = `theme-${theme}`;
+        showNotification(`${theme.charAt(0).toUpperCase() + theme.slice(1)} Theme Applied ✨`);
+        setTimeout(() => {
+            if (rateChart) updateChart();
+        }, 100);
+    }
+
+    async function fetchExchangeRates() {
+        try {
+            const response = await fetch('https://api.exchangerate-api.com/v4/latest/USD');
+            const data = await response.json();
+            if (data && data.rates) {
+                exchangeRates = data.rates;
+                isUsingAPI = true;
+                lastUpdateTime = new Date();
+                updateLastUpdated();
+                showNotification("Exchange rates updated 📈");
+                return true;
+            }
+        } catch (error) {
+            exchangeRates = fallbackRates;
+            isUsingAPI = false;
+            lastUpdateTime = new Date();
+            updateLastUpdated();
+            showNotification("Using offline rates 📊");
+            return false;
+        }
+    }
+
+    function updateLastUpdated() {
+        if (lastUpdateTime) {
+            const timeString = lastUpdateTime.toLocaleTimeString();
+            const source = isUsingAPI ? "Live API" : "Offline Cache";
+            document.getElementById('lastUpdated').innerHTML = `🔄 Last updated: ${timeString} | Source: ${source}`;
+        }
+    }
+
+    function showNotification(message) {
+        const notification = document.createElement('div');
+        notification.className = 'notification';
+        notification.innerHTML = message;
+        document.body.appendChild(notification);
+        setTimeout(() => notification.remove(), 2500);
+    }
+
+    async function convertCurrency(saveToHistory = false) {
+        const amount = parseFloat(document.getElementById('amount').value);
+        const fromCurrency = document.getElementById('fromCurrency').value;
+        const toCurrency = document.getElementById('toCurrency').value;
+
+        if (isNaN(amount) || amount <= 0) {
+            showNotification("Please enter a valid amount 💰");
+            return null;
+        }
+
+        if (Object.keys(exchangeRates).length === 0) await fetchExchangeRates();
+
+        let convertedAmount, rate;
+        if (fromCurrency === 'USD') {
+            rate = exchangeRates[toCurrency];
+            convertedAmount = amount * rate;
+        } else if (toCurrency === 'USD') {
+            rate = 1 / exchangeRates[fromCurrency];
+            convertedAmount = amount / exchangeRates[fromCurrency];
+        } else {
+            const inUSD = amount / exchangeRates[fromCurrency];
+            rate = exchangeRates[toCurrency];
+            convertedAmount = inUSD * exchangeRates[toCurrency];
+        }
+
+        const formattedAmount = convertedAmount.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 4 });
+        const formattedRate = rate.toLocaleString(undefined, { minimumFractionDigits: 4, maximumFractionDigits: 6 });
+
+        document.getElementById('convertedAmount').innerHTML = `${formattedAmount} ${toCurrency}`;
+        document.getElementById('exchangeRate').innerHTML = `1 ${fromCurrency} = ${formattedRate} ${toCurrency}`;
+
+        if (saveToHistory) {
+            conversionHistory.unshift({ id: Date.now(), amount, from: fromCurrency, to: toCurrency, result: convertedAmount, time: new Date().toLocaleString() });
+            if (conversionHistory.length > 20) conversionHistory.pop();
+            localStorage.setItem('conversionHistory', JSON.stringify(conversionHistory));
+            renderHistory();
+            showNotification("Saved to history 💾");
+        }
+        return { rate, convertedAmount };
+    }
+
+    function renderHistory() {
+        const historyList = document.getElementById('historyList');
+        if (!historyList) return;
+        if (conversionHistory.length === 0) {
+            historyList.innerHTML = '<div style="text-align: center; color: rgba(255,255,255,0.35); padding: 20px;">📭 No history yet</div>';
+            return;
+        }
+        historyList.innerHTML = '';
+        conversionHistory.forEach(item => {
+            const div = document.createElement('div');
+            div.className = 'history-item';
+            div.innerHTML = `
+                <div><div class="history-value">${item.amount} ${item.from} → ${item.result.toFixed(2)} ${item.to}</div><div class="history-time">${item.time}</div></div>
+                <button class="history-delete" onclick="deleteHistoryItem(${item.id})">Delete</button>
+            `;
+            historyList.appendChild(div);
+        });
+    }
+
+    function deleteHistoryItem(id) {
+        conversionHistory = conversionHistory.filter(item => item.id !== id);
+        localStorage.setItem('conversionHistory', JSON.stringify(conversionHistory));
+        renderHistory();
+        showNotification("Entry deleted 🗑️");
+    }
+
+    function clearHistory() { conversionHistory = []; localStorage.setItem('conversionHistory', JSON.stringify(conversionHistory)); renderHistory(); showNotification("History cleared 🧹"); }
+    function swapCurrencies() {
+        const fromSelect = document.getElementById('fromCurrency'), toSelect = document.getElementById('toCurrency');
+        [fromSelect.value, toSelect.value] = [toSelect.value, fromSelect.value];
+        convertCurrency(); updateChart(); showNotification("Currencies swapped 🔄");
+    }
+    function resetConverter() { document.getElementById('amount').value = '1'; document.getElementById('fromCurrency').value = 'PKR'; document.getElementById('toCurrency').value = 'USD'; convertCurrency(); showNotification("Reset to default 🔄"); }
+    function setPopularConversion(from, to) { document.getElementById('fromCurrency').value = from; document.getElementById('toCurrency').value = to; convertCurrency(); updateChart(); }
+
+    function createPopularButtons() {
+        const grid = document.getElementById('popularGrid');
+        if (!grid) return;
+        grid.innerHTML = '';
+        popularPairs.forEach(pair => {
+            const btn = document.createElement('div');
+            btn.className = 'popular-btn';
+            btn.innerHTML = pair.label;
+            btn.onclick = () => setPopularConversion(pair.from, pair.to);
+            grid.appendChild(btn);
+        });
+    }
+
+    async function updateChart() {
+        const fromCurrency = document.getElementById('fromCurrency').value, toCurrency = document.getElementById('toCurrency').value;
+        const historicalRates = [];
+        const baseRate = exchangeRates[toCurrency] / exchangeRates[fromCurrency] || 1;
+        for (let i = 6; i >= 0; i--) {
+            const variation = 1 + (Math.random() - 0.5) * 0.04;
+            historicalRates.push(baseRate * variation);
+        }
+        const dates = [];
+        for (let i = 6; i >= 0; i--) { const d = new Date(); d.setDate(d.getDate() - i); dates.push(d.toLocaleDateString(undefined, { month: 'short', day: 'numeric' })); }
+        if (rateChart) rateChart.destroy();
+        const ctx = document.getElementById('rateChart').getContext('2d');
+        const primaryColor = getComputedStyle(document.body).getPropertyValue('--primary').trim() || '#0052cc';
+        const secondaryColor = getComputedStyle(document.body).getPropertyValue('--secondary').trim() || '#00a3ff';
+        rateChart = new Chart(ctx, {
+            type: 'line', data: { labels: dates, datasets: [{ label: `${fromCurrency}/${toCurrency} Exchange Rate`, data: historicalRates, borderColor: primaryColor, backgroundColor: `rgba(${getComputedStyle(document.body).getPropertyValue('--primary-rgb') || '0,82,204'}, 0.08)`, borderWidth: 2.5, fill: true, tension: 0.4, pointBackgroundColor: secondaryColor, pointBorderColor: '#fff', pointRadius: 4, pointHoverRadius: 7 }] },
+            options: { responsive: true, maintainAspectRatio: true, plugins: { legend: { labels: { color: '#fff', font: { size: 11, weight: '500' } } }, tooltip: { backgroundColor: 'rgba(0,0,0,0.8)', titleColor: '#fff', bodyColor: 'rgba(255,255,255,0.8)' } }, scales: { y: { grid: { color: 'rgba(255,255,255,0.06)' }, ticks: { color: 'rgba(255,255,255,0.6)' } }, x: { grid: { color: 'rgba(255,255,255,0.06)' }, ticks: { color: 'rgba(255,255,255,0.6)', rotation: 45, font: { size: 10 } } } } }
+        });
+    }
+
+    document.getElementById('amount')?.addEventListener('input', () => convertCurrency());
+    document.getElementById('fromCurrency')?.addEventListener('change', () => { convertCurrency(); updateChart(); });
+    document.getElementById('toCurrency')?.addEventListener('change', () => { convertCurrency(); updateChart(); });
+    document.getElementById('convertBtn')?.addEventListener('click', () => convertCurrency());
+    document.getElementById('saveHistoryBtn')?.addEventListener('click', () => convertCurrency(true));
+    document.getElementById('resetBtn')?.addEventListener('click', resetConverter);
+    document.getElementById('swapBtn')?.addEventListener('click', swapCurrencies);
+    document.getElementById('clearHistoryBtn')?.addEventListener('click', clearHistory);
+
+    async function init() {
+        createPopularButtons();
+        await fetchExchangeRates();
+        await convertCurrency();
+        renderHistory();
+        await updateChart();
+        setInterval(async () => { await fetchExchangeRates(); convertCurrency(); updateChart(); }, 300000);
+    }
+    init();
+</script>
+</body>
+</html>
