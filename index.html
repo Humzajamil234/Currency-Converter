@@ -52,7 +52,7 @@
             background: linear-gradient(135deg, #1a1208 0%, #2a1f0f 25%, #3d2e17 50%, #2a1f0f 75%, #1a1208 100%);
         }
 
-        /* Theme 3: Modern Purple (SaaS) */
+        /* Theme 3: Modern Purple */
         body.theme-purple {
             --primary: #9b59b6;
             --primary-rgb: 155, 89, 182;
@@ -61,7 +61,7 @@
             background: linear-gradient(135deg, #1a0a2e 0%, #2d1a4e 25%, #4a2a6e 50%, #2d1a4e 75%, #1a0a2e 100%);
         }
 
-        /* Theme 4: Tech Green (FinTech) */
+        /* Theme 4: Tech Green */
         body.theme-tech {
             --primary: #00e676;
             --primary-rgb: 0, 230, 118;
@@ -124,7 +124,7 @@
             background: linear-gradient(135deg, #2a0a0a 0%, #4a1a1a 25%, #6a2a2a 50%, #4a1a1a 75%, #2a0a0a 100%);
         }
 
-        /* Theme 11: Rose Luxury (New) */
+        /* Theme 11: Rose Luxury */
         body.theme-rose {
             --primary: #ff6b9d;
             --primary-rgb: 255, 107, 157;
@@ -133,7 +133,7 @@
             background: linear-gradient(135deg, #1a0a1a 0%, #2a1525 25%, #3d1a35 50%, #2a1525 75%, #1a0a1a 100%);
         }
 
-        /* Theme 12: Navy Executive (New) */
+        /* Theme 12: Navy Executive */
         body.theme-navy {
             --primary: #3498db;
             --primary-rgb: 52, 152, 219;
@@ -150,7 +150,7 @@
             transition: background 0.5s ease;
         }
 
-        /* Animated Background */
+        /* Animated Background with Gradient Rotation */
         .animated-bg {
             position: fixed;
             top: 0;
@@ -192,6 +192,15 @@
             50% { transform: translate(-3%, -3%) scale(1.08); opacity: 1; }
         }
 
+        /* Gradient Rotation Animation */
+        @keyframes gradientShift {
+            0% { background-position: 0% 0%; }
+            25% { background-position: 100% 0%; }
+            50% { background-position: 100% 100%; }
+            75% { background-position: 0% 100%; }
+            100% { background-position: 0% 0%; }
+        }
+
         .container {
             max-width: 1400px;
             margin: 0 auto;
@@ -200,22 +209,24 @@
             z-index: 1;
         }
 
-        /* Header */
+        /* Header with Typewriter Animation */
         .header {
             text-align: center;
             margin-bottom: 35px;
-            animation: slideDown 0.6s ease;
+            animation: slideDown 0.8s cubic-bezier(0.2, 0.9, 0.4, 1.1);
         }
 
         .header h1 {
             font-size: clamp(28px, 5vw, 44px);
-            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            background: linear-gradient(135deg, var(--primary), var(--secondary), var(--primary));
+            background-size: 200% 200%;
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
             background-clip: text;
             font-weight: 800;
             letter-spacing: -0.5px;
             font-family: 'Space Grotesk', monospace;
+            animation: gradientShift 6s ease infinite;
         }
 
         .header p {
@@ -223,14 +234,25 @@
             margin-top: 8px;
             font-size: clamp(12px, 3vw, 14px);
             font-weight: 400;
+            animation: fadeInUp 0.8s ease 0.2s backwards;
         }
 
         @keyframes slideDown {
-            from { opacity: 0; transform: translateY(-30px); }
+            from { opacity: 0; transform: translateY(-50px); }
             to { opacity: 1; transform: translateY(0); }
         }
 
-        /* Theme Selector - Professional Grid */
+        @keyframes fadeInUp {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        @keyframes fadeInScale {
+            from { opacity: 0; transform: scale(0.95); }
+            to { opacity: 1; transform: scale(1); }
+        }
+
+        /* Theme Selector */
         .theme-selector {
             display: flex;
             justify-content: center;
@@ -245,6 +267,7 @@
             margin-left: auto;
             margin-right: auto;
             border: 1px solid rgba(255,255,255,0.06);
+            animation: fadeInScale 0.6s ease 0.1s backwards;
         }
 
         .theme-btn {
@@ -256,17 +279,38 @@
             cursor: pointer;
             font-size: 12px;
             font-weight: 500;
-            transition: all 0.25s ease;
+            transition: all 0.3s cubic-bezier(0.2, 0.9, 0.4, 1.1);
             display: flex;
             align-items: center;
             gap: 8px;
             font-family: 'Inter', sans-serif;
+            position: relative;
+            overflow: hidden;
+        }
+
+        /* Ripple Effect */
+        .theme-btn::after, .btn::after {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 0;
+            height: 0;
+            border-radius: 50%;
+            background: rgba(255,255,255,0.3);
+            transform: translate(-50%, -50%);
+            transition: width 0.6s, height 0.6s;
+        }
+
+        .theme-btn:active::after, .btn:active::after {
+            width: 200px;
+            height: 200px;
         }
 
         .theme-btn:hover {
-            transform: translateY(-2px);
+            transform: translateY(-3px) scale(1.02);
             background: var(--primary);
-            box-shadow: 0 4px 12px rgba(var(--primary-rgb), 0.3);
+            box-shadow: 0 6px 20px rgba(var(--primary-rgb), 0.4);
         }
 
         .theme-preview {
@@ -277,7 +321,7 @@
             box-shadow: 0 0 4px rgba(0,0,0,0.3);
         }
 
-        /* Main Converter Card */
+        /* Main Cards with Float Animation */
         .converter-card, .chart-card, .history-card {
             background: rgba(0,0,0,0.35);
             backdrop-filter: blur(20px);
@@ -287,13 +331,46 @@
             margin-bottom: 30px;
             transition: all 0.4s cubic-bezier(0.2, 0.9, 0.4, 1.1);
             box-shadow: var(--shadow);
+            animation: fadeInScale 0.6s ease backwards;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .converter-card { animation-delay: 0.15s; }
+        .chart-card { animation-delay: 0.2s; }
+        .history-card { animation-delay: 0.25s; }
+
+        /* Card Glow Effect on Hover */
+        .converter-card::before, .chart-card::before, .history-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.05), transparent);
+            transition: left 0.6s;
+        }
+
+        .converter-card:hover::before, .chart-card:hover::before, .history-card:hover::before {
+            left: 100%;
         }
 
         .converter-card:hover, .chart-card:hover, .history-card:hover {
-            transform: translateY(-5px);
-            border-color: rgba(var(--primary-rgb), 0.3);
-            box-shadow: 0 30px 50px rgba(0, 0, 0, 0.25);
+            transform: translateY(-8px);
+            border-color: rgba(var(--primary-rgb), 0.4);
+            box-shadow: 0 35px 55px rgba(0, 0, 0, 0.3);
         }
+
+        /* Floating Animation for Cards */
+        @keyframes float {
+            0%, 100% { transform: translateY(0px); }
+            50% { transform: translateY(-5px); }
+        }
+
+        .converter-card { animation: fadeInScale 0.6s ease 0.15s backwards, float 6s ease-in-out infinite; }
+        .chart-card { animation: fadeInScale 0.6s ease 0.2s backwards, float 6s ease-in-out infinite 0.5s; }
+        .history-card { animation: fadeInScale 0.6s ease 0.25s backwards, float 6s ease-in-out infinite 1s; }
 
         /* Two Column Layout */
         .two-column {
@@ -325,7 +402,7 @@
             font-weight: 600;
             transition: all 0.3s;
         }
-        .amount-input:focus { outline: none; border-color: var(--primary); box-shadow: 0 0 20px rgba(var(--primary-rgb), 0.2); }
+        .amount-input:focus { outline: none; border-color: var(--primary); box-shadow: 0 0 25px rgba(var(--primary-rgb), 0.3); transform: scale(1.01); }
         .amount-input::placeholder { color: rgba(255,255,255,0.3); }
 
         /* Currency Selectors */
@@ -341,7 +418,9 @@
             border-radius: 24px;
             padding: 18px;
             text-align: center;
+            transition: all 0.3s;
         }
+        .currency-box:hover { transform: scale(1.02); background: rgba(0,0,0,0.4); }
         .currency-label { color: rgba(255,255,255,0.5); font-size: 11px; margin-bottom: 8px; text-transform: uppercase; letter-spacing: 1px; }
         .currency-select {
             width: 100%;
@@ -360,7 +439,7 @@
         .swap-icon {
             font-size: 32px;
             cursor: pointer;
-            transition: all 0.4s ease;
+            transition: all 0.5s cubic-bezier(0.2, 0.9, 0.4, 1.1);
             background: rgba(0,0,0,0.3);
             width: 56px;
             height: 56px;
@@ -370,9 +449,9 @@
             border-radius: 50%;
             margin: 0 auto;
         }
-        .swap-icon:hover { transform: rotate(180deg) scale(1.05); background: var(--primary); box-shadow: 0 0 20px rgba(var(--primary-rgb), 0.4); }
+        .swap-icon:hover { transform: rotate(180deg) scale(1.1); background: var(--primary); box-shadow: 0 0 25px rgba(var(--primary-rgb), 0.5); }
 
-        /* Result Section */
+        /* Result Section with Bounce Animation */
         .result-section {
             text-align: center;
             margin: 28px 0;
@@ -387,10 +466,18 @@
             font-weight: 700;
             margin-bottom: 8px;
             letter-spacing: -1px;
+            transition: all 0.3s;
+        }
+        .bounce-animation {
+            animation: bounce 0.5s cubic-bezier(0.2, 0.9, 0.4, 1.1);
+        }
+        @keyframes bounce {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.08); }
         }
         .exchange-rate { color: rgba(255,255,255,0.5); font-size: 13px; }
 
-        /* Buttons */
+        /* Buttons with Pulse Animation */
         .button-group {
             display: flex;
             gap: 12px;
@@ -405,15 +492,30 @@
             font-size: 13px;
             font-weight: 600;
             cursor: pointer;
-            transition: all 0.3s;
+            transition: all 0.3s cubic-bezier(0.2, 0.9, 0.4, 1.1);
             font-family: 'Inter', sans-serif;
+            position: relative;
+            overflow: hidden;
         }
-        .btn-primary { background: linear-gradient(135deg, var(--primary), var(--secondary)); color: white; }
+        .btn-primary { background: linear-gradient(135deg, var(--primary), var(--secondary)); color: white; background-size: 200% 200%; animation: gradientShift 3s ease infinite; }
         .btn-success { background: linear-gradient(135deg, #36b37e, #1f8a4c); color: white; }
         .btn-danger { background: linear-gradient(135deg, #ff5630, #c93715); color: white; }
         .btn-outline { background: transparent; border: 1.5px solid var(--primary); color: var(--primary); }
         .btn-outline:hover { background: var(--primary); color: white; }
-        .btn:hover { transform: translateY(-2px); box-shadow: 0 5px 15px rgba(0,0,0,0.3); }
+        .btn:hover { transform: translateY(-3px) scale(1.02); box-shadow: 0 8px 25px rgba(0,0,0,0.3); }
+        .btn:active { transform: translateY(0); }
+
+        /* Pulse Animation for Convert Button */
+        @keyframes pulse {
+            0%, 100% { box-shadow: 0 0 0 0 rgba(var(--primary-rgb), 0.7); }
+            50% { box-shadow: 0 0 0 10px rgba(var(--primary-rgb), 0); }
+        }
+        .btn-primary {
+            animation: pulse 2s infinite;
+        }
+        .btn-primary:hover {
+            animation: none;
+        }
 
         /* Popular Currencies */
         .popular-section { margin-top: 28px; }
@@ -430,19 +532,19 @@
             border-radius: 14px;
             color: white;
             cursor: pointer;
-            transition: all 0.25s;
+            transition: all 0.3s cubic-bezier(0.2, 0.9, 0.4, 1.1);
             font-size: 12px;
             text-align: center;
             font-weight: 500;
         }
-        .popular-btn:hover { background: var(--primary); transform: translateY(-2px); }
+        .popular-btn:hover { background: var(--primary); transform: translateY(-3px) scale(1.03); box-shadow: 0 5px 15px rgba(var(--primary-rgb), 0.3); }
 
         /* Chart & History */
         .chart-title, .history-title { color: rgba(255,255,255,0.8); font-size: 16px; font-weight: 600; margin-bottom: 20px; text-align: center; letter-spacing: -0.3px; }
         .chart-container { position: relative; height: 260px; }
         canvas { max-height: 260px; width: 100%; }
 
-        /* History List */
+        /* History List with Slide Animation */
         .history-list { max-height: 320px; overflow-y: auto; }
         .history-item {
             display: flex;
@@ -452,15 +554,31 @@
             background: rgba(0,0,0,0.25);
             border-radius: 16px;
             margin-bottom: 8px;
-            transition: all 0.25s;
+            transition: all 0.3s cubic-bezier(0.2, 0.9, 0.4, 1.1);
+            animation: slideInLeft 0.4s ease backwards;
         }
-        .history-item:hover { background: rgba(0,0,0,0.4); transform: translateX(4px); }
+        @keyframes slideInLeft {
+            from { opacity: 0; transform: translateX(-30px); }
+            to { opacity: 1; transform: translateX(0); }
+        }
+        .history-item:hover { background: rgba(0,0,0,0.45); transform: translateX(6px); }
         .history-value { color: white; font-family: 'Space Grotesk', monospace; font-size: 13px; font-weight: 500; }
         .history-time { color: rgba(255,255,255,0.35); font-size: 10px; margin-top: 4px; }
         .history-delete { background: rgba(255,86,48,0.8); border: none; padding: 5px 12px; border-radius: 12px; color: white; cursor: pointer; font-size: 11px; transition: all 0.2s; }
-        .history-delete:hover { opacity: 0.8; transform: scale(0.95); background: #ff5630; }
+        .history-delete:hover { opacity: 0.8; transform: scale(0.95) rotate(2deg); background: #ff5630; }
 
         .last-updated { text-align: center; margin-top: 25px; color: rgba(255,255,255,0.25); font-size: 10px; letter-spacing: 0.5px; }
+
+        /* Shimmer Loading Effect */
+        .shimmer {
+            background: linear-gradient(90deg, rgba(255,255,255,0) 0%, rgba(255,255,255,0.1) 50%, rgba(255,255,255,0) 100%);
+            background-size: 200% 100%;
+            animation: shimmer 1.5s infinite;
+        }
+        @keyframes shimmer {
+            0% { background-position: -200% 0; }
+            100% { background-position: 200% 0; }
+        }
 
         /* Notification */
         .notification {
@@ -472,7 +590,7 @@
             border-radius: 48px;
             color: white;
             font-weight: 500;
-            animation: slideInRight 0.4s ease;
+            animation: slideInRight 0.5s cubic-bezier(0.2, 0.9, 0.4, 1.1), fadeOut 0.5s ease 2s forwards;
             z-index: 1000;
             font-size: 13px;
             box-shadow: 0 4px 15px rgba(0,0,0,0.2);
@@ -480,6 +598,9 @@
         @keyframes slideInRight {
             from { transform: translateX(100%); opacity: 0; }
             to { transform: translateX(0); opacity: 1; }
+        }
+        @keyframes fadeOut {
+            to { opacity: 0; visibility: hidden; }
         }
 
         @media (max-width: 480px) {
@@ -506,7 +627,7 @@
         <p>Powered by Real-time Exchange Rates | Premium Business Edition</p>
     </div>
 
-    <!-- Professional Theme Selector - 12 Themes -->
+    <!-- Professional Theme Selector -->
     <div class="theme-selector">
         <button class="theme-btn" onclick="changeTheme('corporate')"><span class="theme-preview" style="background: #0052cc;"></span>Corporate</button>
         <button class="theme-btn" onclick="changeTheme('gold')"><span class="theme-preview" style="background: #ffd700;"></span>Gold</button>
@@ -620,7 +741,7 @@
                     <button class="btn btn-outline" id="clearHistoryBtn" style="padding: 6px 16px; font-size: 11px;">🗑️ Clear All</button>
                 </div>
                 <div class="history-list" id="historyList">
-                    <div style="text-align: center; color: rgba(255,255,255,0.35); padding: 20px; font-size: 13px;">No history yet</div>
+                    <div style="text-align: center; color: rgba(255,255,255,0.35); padding: 20px; font-size: 13px;">📭 No history yet</div>
                 </div>
             </div>
         </div>
@@ -698,6 +819,26 @@
         setTimeout(() => notification.remove(), 2500);
     }
 
+    // Animated number counter function
+    function animateNumber(element, start, end, duration = 800) {
+        const startTime = performance.now();
+        const updateNumber = (currentTime) => {
+            const elapsed = currentTime - startTime;
+            const progress = Math.min(elapsed / duration, 1);
+            const easeOutCubic = 1 - Math.pow(1 - progress, 3);
+            const current = start + (end - start) * easeOutCubic;
+            element.innerHTML = `${current.toFixed(2)} ${document.getElementById('toCurrency').value}`;
+            if (progress < 1) {
+                requestAnimationFrame(updateNumber);
+            } else {
+                element.innerHTML = `${end.toFixed(2)} ${document.getElementById('toCurrency').value}`;
+                element.classList.add('bounce-animation');
+                setTimeout(() => element.classList.remove('bounce-animation'), 500);
+            }
+        };
+        requestAnimationFrame(updateNumber);
+    }
+
     async function convertCurrency(saveToHistory = false) {
         const amount = parseFloat(document.getElementById('amount').value);
         const fromCurrency = document.getElementById('fromCurrency').value;
@@ -723,11 +864,13 @@
             convertedAmount = inUSD * exchangeRates[toCurrency];
         }
 
-        const formattedAmount = convertedAmount.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 4 });
         const formattedRate = rate.toLocaleString(undefined, { minimumFractionDigits: 4, maximumFractionDigits: 6 });
-
-        document.getElementById('convertedAmount').innerHTML = `${formattedAmount} ${toCurrency}`;
         document.getElementById('exchangeRate').innerHTML = `1 ${fromCurrency} = ${formattedRate} ${toCurrency}`;
+
+        // Animated counter for converted amount
+        const currentDisplay = document.getElementById('convertedAmount');
+        const currentValue = parseFloat(currentDisplay.innerHTML.split(' ')[0]) || 0;
+        animateNumber(currentDisplay, currentValue, convertedAmount);
 
         if (saveToHistory) {
             conversionHistory.unshift({ id: Date.now(), amount, from: fromCurrency, to: toCurrency, result: convertedAmount, time: new Date().toLocaleString() });
@@ -747,9 +890,10 @@
             return;
         }
         historyList.innerHTML = '';
-        conversionHistory.forEach(item => {
+        conversionHistory.forEach((item, index) => {
             const div = document.createElement('div');
             div.className = 'history-item';
+            div.style.animationDelay = `${index * 0.05}s`;
             div.innerHTML = `
                 <div><div class="history-value">${item.amount} ${item.from} → ${item.result.toFixed(2)} ${item.to}</div><div class="history-time">${item.time}</div></div>
                 <button class="history-delete" onclick="deleteHistoryItem(${item.id})">Delete</button>
